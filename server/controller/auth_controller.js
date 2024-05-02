@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import { Account } from "../model/schemas.js";
+import jwt from "jsonwebtoken";
 export const LogIn = async (req, res) => {
   try {
     const user = await Account.findOne({ email: req.body.email });
