@@ -1,6 +1,6 @@
 import { Account, Room } from "../model/schemas.js";
 export const getUser = async (req, res) => {
-  const { id } = req.headers;
+  const { id } = req.body;
 
   const user = await Account.findById(id);
 
