@@ -10,5 +10,14 @@ export const createRoom = async (req, res) => {
 };
 
 export const getRoom = async (req, res) => {
-  const room = await Room.find();
+  const { id } = req.headers;
+  const room = await Room.find({ users: id });
+  let chats = [];
+  room.forEach((rooms) => {
+    rooms.users.filter((user) => {
+      // console.log(user);
+      user != id ? (chats = chats.concat(user)) : null;
+    });
+  });
+  res.status(200).json(chats);
 };
