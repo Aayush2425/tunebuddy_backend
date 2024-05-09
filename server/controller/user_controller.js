@@ -11,7 +11,7 @@ export const getSearchUser = async (req, res) => {
   const user = await Account.find(
     {},
     {
-      password: 0,
+      email: 1,
     }
   );
   console.log(user);
