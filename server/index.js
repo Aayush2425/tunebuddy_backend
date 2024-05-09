@@ -2,9 +2,8 @@ import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import mongoose from "mongoose";
+import { Account } from "./model/schemas.js";
 import authRouter from "./routes/auth_route.js";
-import userRouter from "./routes/user_route.js";
-import chatRouter from "./routes/chat_route.js";
 import cors from "cors";
 import dotenv from "dotenv";
 const app = express();
@@ -13,7 +12,7 @@ const httpServer = createServer(app);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-export const io = new Server(httpServer, {
+const io = new Server(httpServer, {
   /* options */
 });
 app.listen(4000, () => console.log("App is running on server 4000"));
@@ -23,6 +22,7 @@ mongoose
   )
   .then(() => console.log("connected to MongoDb"))
   .catch((err) => console.log(err));
+
 io.on("connection", (socket) => {
   console.log("Client connected ... ", socket.id);
   socket.on("typing", (data) => {
@@ -32,6 +32,11 @@ io.on("connection", (socket) => {
   socket.on("message", function name(data) {
     console.log(data);
     io.emit("message", data);
+  });
+
+  socket.on("location", function name(data) {
+    console.log(data);
+    io.emit("location", data);
   });
 
   socket.on("connect", function () {});
@@ -46,8 +51,7 @@ io.on("connection", (socket) => {
     console.log(err);
   });
 });
+
 httpServer.listen(3000, () => console.log("server running on port 3000"));
 
 app.use(authRouter);
-app.use(userRouter);
-app.use(chatRouter);

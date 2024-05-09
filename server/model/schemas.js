@@ -12,8 +12,9 @@ const messageSchema = new Schema({
 // Define schema for a chat room
 const roomSchema = new Schema({
   name: { type: String, required: true },
+  description: { type: String },
   users: [{ type: Schema.Types.ObjectId, ref: "Account" }],
-  messages: [{ type: Schema.Types.ObjectId, ref: "Message", default: [] }],
+  messages: [{ type: Schema.Types.ObjectId, ref: "Message" }],
 });
 
 // Define schema for a user
