@@ -10,7 +10,7 @@ export const createRoom = async (req, res) => {
 };
 
 export const getRoom = async (req, res) => {
-  const { id } = req.headers;
+  const { id } = req.body;
   const room = await Room.find({ users: id });
   let chats = [];
   room.forEach((rooms) => {
@@ -19,5 +19,5 @@ export const getRoom = async (req, res) => {
       user != id ? (chats = chats.concat(user)) : null;
     });
   });
-  res.status(200).json(chats);
+  res.status(200).json;
 };
