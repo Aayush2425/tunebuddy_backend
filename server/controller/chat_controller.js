@@ -8,3 +8,7 @@ export const createRoom = async (req, res) => {
   await room.save();
   res.status(200).json(room);
 };
+
+export const getRoom = async (req, res) => {
+  const room = await Room.find();
+};
