@@ -19,5 +19,5 @@ export const getRoom = async (req, res) => {
       user != id ? (chats = chats.concat(user)) : null;
     });
   });
-  res.status(200).json;
+  res.status(200).json(chats);
 };
