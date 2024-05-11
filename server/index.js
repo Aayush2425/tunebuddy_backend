@@ -30,8 +30,8 @@ io.on("connection", (socket) => {
     io.emit("typing", data);
   });
   socket.on("message", function name(data) {
-    console.log(data);
-    data["targetId"].emit("message", data);
+    console.log(data.id);
+    data.targetId.emit("message", data);
   });
 
   socket.on("connect", function () {});
