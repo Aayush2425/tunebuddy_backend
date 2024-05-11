@@ -31,7 +31,7 @@ io.on("connection", (socket) => {
   });
   socket.on("message", function name(data) {
     console.log(data);
-    io.emit("message", data);
+    data["_id"].emit("message", data);
   });
 
   socket.on("connect", function () {});
