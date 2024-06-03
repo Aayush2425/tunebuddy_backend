@@ -33,6 +33,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("private_message", ({ recipientId, message, senderId }) => {
+    console.log(users);
     const recipientSocketId = users[recipientId];
     if (recipientSocketId) {
       // Send the message to the specific client
