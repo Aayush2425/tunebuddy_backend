@@ -13,6 +13,7 @@ const httpServer = createServer(app);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+const users = {};
 export const io = new Server(httpServer, {
   /* options */
 });
@@ -23,27 +24,34 @@ mongoose
   )
   .then(() => console.log("connected to MongoDb"))
   .catch((err) => console.log(err));
+
 io.on("connection", (socket) => {
   console.log("Client connected ... ", socket.id);
-  socket.on("typing", (data) => {
-    console.log(data);
-    io.emit("typing", data);
-  });
-  socket.on("message", function name(data) {
-    console.log(data.id);
-    data.targetId.emit("message", data);
+  socket.on("register", (userId) => {
+    users[userId] = socket.id;
+    console.log("User registered:", userId, socket.id);
   });
 
-  socket.on("connect", function () {});
-
-  socket.on("disconnect", function () {
-    console.log("client disconnect...", client.id);
-    // handleDisconnect()
+  socket.on("private_message", ({ recipientId, message, senderId }) => {
+    const recipientSocketId = users[recipientId];
+    if (recipientSocketId) {
+      // Send the message to the specific client
+      io.to(recipientSocketId).emit("private_message", { message, senderId });
+      console.log(`Message sent from ${senderId} to ${recipientId}`);
+    } else {
+      console.log("Recipient not connected:", recipientId);
+    }
   });
 
-  socket.on("error", function (err) {
-    console.log("received error from client:", client.id);
-    console.log(err);
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+    // Remove the user from the users object
+    for (let userId in users) {
+      if (users[userId] === socket.id) {
+        delete users[userId];
+        break;
+      }
+    }
   });
 });
 httpServer.listen(3000, () => console.log("server running on port 3000"));
