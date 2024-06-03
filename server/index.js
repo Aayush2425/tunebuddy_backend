@@ -33,7 +33,9 @@ io.on("connection", (socket) => {
   });
 
   socket.on("private_message", ({ recipientId, message, senderId }) => {
-    console.log(users.recipientId);
+    console.log(users[recipientId]);
+    console.log(users[`"${recipientId}"`]);
+
     const recipientSocketId = users[`"${recipientId}"`];
     console.log(recipientSocketId);
     if (recipientSocketId) {
