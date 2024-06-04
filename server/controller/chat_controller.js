@@ -10,14 +10,20 @@ export const createRoom = async (req, res) => {
 };
 
 export const getRoom = async (req, res) => {
-  const { id } = req.body;
-  const room = await Room.find({ users: id });
-  let chats = [];
-  room.forEach((rooms) => {
-    rooms.users.filter((user) => {
-      // console.log(user);
-      user != id ? (chats = chats.concat(user)) : null;
+  const { id } = req.query; // Assuming user ID is passed as a query parameter
+  try {
+    const rooms = await Room.find({ users: id });
+    let chats = [];
+    rooms.forEach((room) => {
+      room.users.forEach((user) => {
+        if (user !== id && !chats.includes(user)) {
+          chats.push(user); // Push user ID to chats array if not the current user and not already in the list
+        }
+      });
     });
-  });
-  res.status(200).json(chats);
+    res.status(200).json(chats);
+  } catch (error) {
+    console.error("Error fetching rooms:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 };
