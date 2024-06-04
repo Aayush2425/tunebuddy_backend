@@ -11,6 +11,7 @@ export const createRoom = async (req, res) => {
 
 export const getRoom = async (req, res) => {
   const { id } = req.query; // Assuming user ID is passed as a query parameter
+  console.log(id);
   try {
     const rooms = await Room.find({ users: id });
     let chats = [];
