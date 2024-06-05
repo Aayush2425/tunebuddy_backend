@@ -1,6 +1,7 @@
 import { Account, Room } from "../model/schemas.js";
 export const getUser = async (req, res) => {
   const { id } = req.query; // Assuming user ID is passed as a query parameter
+  console.log(id);
   try {
     const user = await Account.findById(id); // Adjust based on your schema and how you fetch the user
     if (user) {

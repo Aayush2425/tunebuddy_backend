@@ -3,7 +3,10 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import mongoose from "mongoose";
 import { Message } from "./model/schemas.js";
-
+import authRouter from "./routes/auth_route.js";
+import userRouter from "./routes/user_route.js";
+import chatRouter from "./routes/chat_route.js";
+import dotenv from "dotenv";
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
@@ -12,9 +15,11 @@ const io = new Server(httpServer, {
     methods: ["GET", "POST"],
   },
 });
-
+dotenv.config();
 const users = {};
-
+app.use(authRouter);
+app.use(userRouter);
+app.use(chatRouter);
 // MongoDB Connection
 mongoose
   .connect(process.env.MONGODB_URI)
