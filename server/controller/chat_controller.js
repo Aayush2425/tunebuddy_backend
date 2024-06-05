@@ -18,8 +18,8 @@ export const getRoom = async (req, res) => {
     console.log("before      ", chats);
     rooms.forEach((room) => {
       room.users.forEach((user) => {
-        if (user._id !== id) {
-          console.log(user);
+        if (user._id != id) {
+          console.log(user._id);
           chats.push(user); // Push user ID to chats array if not the current user and not already in the list
         }
       });
