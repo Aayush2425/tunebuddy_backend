@@ -15,6 +15,7 @@ export const getRoom = async (req, res) => {
   try {
     const rooms = await Room.find({ users: id });
     let chats = [];
+    console.log("before      ", chats);
     rooms.forEach((room) => {
       room.users.forEach((user) => {
         if (user !== id) {
@@ -22,6 +23,7 @@ export const getRoom = async (req, res) => {
         }
       });
     });
+    console.log("after      ", chats);
     res.status(200).json(chats);
   } catch (error) {
     console.error("Error fetching rooms:", error);
