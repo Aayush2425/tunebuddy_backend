@@ -45,7 +45,7 @@ io.on("connection", (socket) => {
   console.log("Client connected:", socket.id);
 
   socket.on("register", (userId) => {
-    users[userId.userId] = socket.id;
+    users[userId] = socket.id;
     console.log("User registered:", userId, socket.id);
     console.log("Current users:", JSON.stringify(users, null, 2));
   });
@@ -54,8 +54,6 @@ io.on("connection", (socket) => {
     console.log(
       `Private message from ${senderId} to ${recipientId}: ${message}`
     );
-    console.log(users.recipientId);
-    io.to(users.recipientId).emit("private_message", { message, senderId });
     console.log(
       "Current users before sending message:",
       JSON.stringify(users, null, 2)
