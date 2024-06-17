@@ -47,13 +47,18 @@ io.on("connection", (socket) => {
   socket.on("register", (userId) => {
     users[userId] = socket.id;
     console.log("User registered:", userId, socket.id);
-    console.log("Current users:", users);
+    console.log("Current users:", JSON.stringify(users, null, 2));
   });
 
   socket.on("private_message", ({ recipientId, message, senderId }) => {
     console.log(
       `Private message from ${senderId} to ${recipientId}: ${message}`
     );
+    console.log(
+      "Current users before sending message:",
+      JSON.stringify(users, null, 2)
+    );
+
     const recipientSocketId = users[recipientId];
     console.log("Recipient socket ID:", recipientSocketId);
     if (recipientSocketId) {
@@ -73,7 +78,10 @@ io.on("connection", (socket) => {
         break;
       }
     }
-    console.log("Current users after disconnect:", users);
+    console.log(
+      "Current users after disconnect:",
+      JSON.stringify(users, null, 2)
+    );
   });
 });
 
