@@ -3,7 +3,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import Message from "./model/schemas.js";
+import { Message } from "./model/schemas.js";
 
 dotenv.config();
 
