@@ -54,6 +54,7 @@ io.on("connection", (socket) => {
     console.log(
       `Private message from ${senderId} to ${recipientId}: ${message}`
     );
+    io.to(recipientSocketId).emit("private_message", { message, senderId });
     console.log(
       "Current users before sending message:",
       JSON.stringify(users, null, 2)
