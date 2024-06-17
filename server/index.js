@@ -45,7 +45,7 @@ io.on("connection", (socket) => {
   console.log("Client connected:", socket.id);
 
   socket.on("register", (userId) => {
-    users[userId] = socket.id;
+    users[userId.userId] = socket.id;
     console.log("User registered:", userId, socket.id);
     console.log("Current users:", JSON.stringify(users, null, 2));
   });
